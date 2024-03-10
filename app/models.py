@@ -41,7 +41,6 @@ class Season(Base):
     end_dt: Mapped[Date] = mapped_column(Date)
     active: Mapped[bool] = mapped_column(Boolean, server_default=expression.true())
     teams: Mapped[List["Team"]] = relationship(back_populates="season")
-    coaches: Mapped[List["Coach"]] = relationship(back_populates="season")
     games: Mapped[List["Game"]] = relationship(back_populates="season")
 
 
@@ -54,6 +53,15 @@ class Address(Base):
     state: Mapped[str] = mapped_column(String(50))
     zip_code: Mapped[str] = mapped_column(String(15))
     venue: Mapped[List["Venue"]] = relationship(back_populates="address")
+
+
+class Association(Base):
+    __tablename__ = 'association'
+    id: Mapped[uuid4] = mapped_column(UUID, primary_key=True, default=uuid4)
+    name: Mapped[str] = mapped_column(String(50))
+    assignor_id: Mapped[Optional[uuid4]] = mapped_column(UUID, ForeignKey(PERSON_ID))
+    president_id: Mapped[Optional[uuid4]] = mapped_column(UUID, ForeignKey(PERSON_ID))
+    registrar_id: Mapped[Optional[uuid4]] = mapped_column(UUID, ForeignKey(PERSON_ID))
 
 
 class Venue(Base):
@@ -92,7 +100,8 @@ class Division(Base):
 class Person(Base):
     """ Table defining a base person """
     __tablename__ = 'person'
-    auth_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    id: Mapped[uuid4] = mapped_column(UUID, primary_key=True, default=uuid4)
+    auth_id: Mapped[str] = mapped_column(String(100))
     first_name: Mapped[str] = mapped_column(String(100))
     last_name: Mapped[str] = mapped_column(String(100))
     email: Mapped[str] = mapped_column(String(100))
@@ -111,13 +120,10 @@ class Person(Base):
 class Coach(Person):
     """ Table defining a coach """
     __tablename__ = 'coach'
-    id: Mapped[str] = mapped_column(String(100), ForeignKey('person.auth_id'),
+    id: Mapped[uuid4] = mapped_column(UUID, ForeignKey(PERSON_ID),
                                     primary_key=True)
 
-    season_id: Mapped[uuid4] = mapped_column(UUID, ForeignKey(SEASON_ID))
-
     team: Mapped[List["Team"]] = relationship(back_populates="coaches")
-    season: Mapped[List["Season"]] = relationship(back_populates="coaches")
 
     __mapper_args__ = {
         "polymorphic_identity": "coach",
@@ -127,7 +133,7 @@ class Coach(Person):
 class Referee(Person):
     """ Table defining a referee """
     __tablename__ = 'referee'
-    id: Mapped[str] = mapped_column(String(100), ForeignKey('person.auth_id'),
+    id: Mapped[uuid4] = mapped_column(UUID, ForeignKey(PERSON_ID),
                                     primary_key=True)
 
     is_referee: Mapped[bool] = mapped_column(Boolean, default=True,
@@ -146,7 +152,7 @@ class Team(Base):
     id: Mapped[uuid4] = mapped_column(UUID, primary_key=True, default=uuid4)
     division_id: Mapped[uuid4] = mapped_column(UUID, ForeignKey('division.id'))
     season_id: Mapped[uuid4] = mapped_column(UUID, ForeignKey(SEASON_ID))
-    coach_id: Mapped[uuid4] = mapped_column(String, ForeignKey('coach.id'))
+    coach_id: Mapped[uuid4] = mapped_column(UUID, ForeignKey('coach.id'))
 
     gender: Mapped[str] = mapped_column(String(5), default="Boys")
     name: Mapped[str] = mapped_column(String(100))
@@ -169,6 +175,6 @@ class Game(Base):
     away_score: Mapped[int]
     status: Mapped[Enum[GameStatus]] = mapped_column(Enum(GameStatus))
     sub_venue: Mapped["SubVenue"] = relationship(back_populates="games")
-    home_team: Mapped["Team"] = mapped_column(UUID, ForeignKey('team.id'))
-    away_team: Mapped["Team"] = mapped_column(UUID, ForeignKey('team.id'))
+    home_team: Mapped["Team"] = mapped_column(UUID, ForeignKey(TEAM_ID))
+    away_team: Mapped["Team"] = mapped_column(UUID, ForeignKey(TEAM_ID))
     season: Mapped["Season"] = relationship(back_populates="games")
