@@ -30,15 +30,19 @@ def public():
 
 @app.get("/api/private")
 def private(auth_result: str = Security(auth.verify)):
-    """A valid access token is required to access this route"""
-    return auth_result
+    result = {
+        "status": "success",
+        "msg": ("Hello from a private endpoint! You need to be "
+                "authenticated to see this.")
+    }
+    return result
 
 @app.get("/seasons/", response_model=list[Season])
-def read_seasons(db: Session = Depends(get_db), skip: int=0, limit: int=100):
+def read_seasons(db: Session=Depends(get_db), skip: int=0, limit: int=100):
     return get_seasons(db, skip=skip, limit=limit)
 
 @app.post("/season/", response_model=SeasonCreate, status_code=201)
-def new_season(season: SeasonCreate, db: Session = Depends(get_db)):
+def new_season(season: SeasonCreate, db: Session=Depends(get_db)):
     temp = get_season_by_name(db, name=season.name)
     if temp:
         raise HTTPException(status_code=400,
@@ -46,7 +50,7 @@ def new_season(season: SeasonCreate, db: Session = Depends(get_db)):
     return create_season(db, season=season)
 
 @app.delete("/season/{id}")
-def delete_season(id: UUID4, season: Season, db: Session = Depends(get_db)):
+def delete_season(id: UUID4, season: Season, db: Session=Depends(get_db)):
     error = deactivate_season(db, id=id)
     if error:
         raise HTTPException(status_code=400,

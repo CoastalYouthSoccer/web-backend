@@ -1,8 +1,8 @@
-"""add tables back
+"""regenerate tables
 
-Revision ID: 2a42ad4af890
-Revises: 604a3d502daa
-Create Date: 2024-03-09 14:12:06.533908
+Revision ID: 4b762141c841
+Revises: 
+Create Date: 2024-03-10 10:36:33.001589
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '2a42ad4af890'
-down_revision: Union[str, None] = '604a3d502daa'
+revision: str = '4b762141c841'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -23,7 +23,7 @@ def upgrade() -> None:
     op.create_table('address',
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('address1', sa.String(length=100), nullable=False),
-    sa.Column('address2', sa.String(), nullable=False),
+    sa.Column('address2', sa.String(length=30), nullable=True),
     sa.Column('city', sa.String(length=50), nullable=False),
     sa.Column('state', sa.String(length=50), nullable=False),
     sa.Column('zip_code', sa.String(length=15), nullable=False),
@@ -35,16 +35,37 @@ def upgrade() -> None:
     sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('coach',
+    op.create_table('person',
     sa.Column('auth_id', sa.String(length=100), nullable=False),
     sa.Column('first_name', sa.String(length=100), nullable=False),
     sa.Column('last_name', sa.String(length=100), nullable=False),
     sa.Column('email', sa.String(length=100), nullable=False),
-    sa.Column('phone_number', sa.String(), nullable=False),
-    sa.Column('season_id', sa.UUID(), nullable=False),
+    sa.Column('phone_number', sa.String(length=12), nullable=True),
     sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
-    sa.ForeignKeyConstraint(['season_id'], ['season.id'], ),
+    sa.Column('table_type', sa.String(length=20), nullable=False),
     sa.PrimaryKeyConstraint('auth_id')
+    )
+    op.create_table('season',
+    sa.Column('id', sa.UUID(), nullable=False),
+    sa.Column('name', sa.String(length=100), nullable=False),
+    sa.Column('start_dt', sa.Date(), nullable=False),
+    sa.Column('end_dt', sa.Date(), nullable=False),
+    sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('coach',
+    sa.Column('id', sa.String(length=100), nullable=False),
+    sa.Column('season_id', sa.UUID(), nullable=False),
+    sa.ForeignKeyConstraint(['id'], ['person.auth_id'], ),
+    sa.ForeignKeyConstraint(['season_id'], ['season.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('referee',
+    sa.Column('id', sa.String(length=100), nullable=False),
+    sa.Column('is_referee', sa.Boolean(), server_default=sa.text('true'), nullable=False),
+    sa.Column('is_assignor', sa.Boolean(), server_default=sa.text('true'), nullable=False),
+    sa.ForeignKeyConstraint(['id'], ['person.auth_id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('venue',
     sa.Column('id', sa.UUID(), nullable=False),
@@ -70,7 +91,7 @@ def upgrade() -> None:
     sa.Column('gender', sa.String(length=5), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
-    sa.ForeignKeyConstraint(['coach_id'], ['coach.auth_id'], ),
+    sa.ForeignKeyConstraint(['coach_id'], ['coach.id'], ),
     sa.ForeignKeyConstraint(['division_id'], ['division.id'], ),
     sa.ForeignKeyConstraint(['season_id'], ['season.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -85,7 +106,11 @@ def upgrade() -> None:
     sa.Column('home_score', sa.Integer(), nullable=False),
     sa.Column('away_score', sa.Integer(), nullable=False),
     sa.Column('status', sa.Enum('UNDEFINED', 'SCHEDULED', 'COMPLETED', 'CANCELED', 'RESCHEDULED', 'FORFEIT', name='gamestatus'), nullable=False),
+    sa.Column('home_team', sa.UUID(), nullable=False),
+    sa.Column('away_team', sa.UUID(), nullable=False),
+    sa.ForeignKeyConstraint(['away_team'], ['team.id'], ),
     sa.ForeignKeyConstraint(['away_team_id'], ['team.id'], ),
+    sa.ForeignKeyConstraint(['home_team'], ['team.id'], ),
     sa.ForeignKeyConstraint(['home_team_id'], ['team.id'], ),
     sa.ForeignKeyConstraint(['season_id'], ['season.id'], ),
     sa.ForeignKeyConstraint(['sub_venue_id'], ['sub_venue.id'], ),
@@ -100,7 +125,10 @@ def downgrade() -> None:
     op.drop_table('team')
     op.drop_table('sub_venue')
     op.drop_table('venue')
+    op.drop_table('referee')
     op.drop_table('coach')
+    op.drop_table('season')
+    op.drop_table('person')
     op.drop_table('division')
     op.drop_table('address')
     # ### end Alembic commands ###
