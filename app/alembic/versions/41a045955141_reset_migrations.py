@@ -1,8 +1,8 @@
-"""regenerate tables
+"""reset migrations
 
-Revision ID: 4b762141c841
+Revision ID: 41a045955141
 Revises: 
-Create Date: 2024-03-10 10:36:33.001589
+Create Date: 2024-03-10 12:28:47.332142
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '4b762141c841'
+revision: str = '41a045955141'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -36,6 +36,7 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('person',
+    sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('auth_id', sa.String(length=100), nullable=False),
     sa.Column('first_name', sa.String(length=100), nullable=False),
     sa.Column('last_name', sa.String(length=100), nullable=False),
@@ -43,7 +44,7 @@ def upgrade() -> None:
     sa.Column('phone_number', sa.String(length=12), nullable=True),
     sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
     sa.Column('table_type', sa.String(length=20), nullable=False),
-    sa.PrimaryKeyConstraint('auth_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('season',
     sa.Column('id', sa.UUID(), nullable=False),
@@ -53,18 +54,27 @@ def upgrade() -> None:
     sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('association',
+    sa.Column('id', sa.UUID(), nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=False),
+    sa.Column('assignor_id', sa.UUID(), nullable=True),
+    sa.Column('president_id', sa.UUID(), nullable=True),
+    sa.Column('registrar_id', sa.UUID(), nullable=True),
+    sa.ForeignKeyConstraint(['assignor_id'], ['person.id'], ),
+    sa.ForeignKeyConstraint(['president_id'], ['person.id'], ),
+    sa.ForeignKeyConstraint(['registrar_id'], ['person.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('coach',
-    sa.Column('id', sa.String(length=100), nullable=False),
-    sa.Column('season_id', sa.UUID(), nullable=False),
-    sa.ForeignKeyConstraint(['id'], ['person.auth_id'], ),
-    sa.ForeignKeyConstraint(['season_id'], ['season.id'], ),
+    sa.Column('id', sa.UUID(), nullable=False),
+    sa.ForeignKeyConstraint(['id'], ['person.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('referee',
-    sa.Column('id', sa.String(length=100), nullable=False),
+    sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('is_referee', sa.Boolean(), server_default=sa.text('true'), nullable=False),
     sa.Column('is_assignor', sa.Boolean(), server_default=sa.text('true'), nullable=False),
-    sa.ForeignKeyConstraint(['id'], ['person.auth_id'], ),
+    sa.ForeignKeyConstraint(['id'], ['person.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('venue',
@@ -87,7 +97,7 @@ def upgrade() -> None:
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('division_id', sa.UUID(), nullable=False),
     sa.Column('season_id', sa.UUID(), nullable=False),
-    sa.Column('coach_id', sa.String(), nullable=False),
+    sa.Column('coach_id', sa.UUID(), nullable=False),
     sa.Column('gender', sa.String(length=5), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('active', sa.Boolean(), server_default=sa.text('true'), nullable=False),
@@ -127,6 +137,7 @@ def downgrade() -> None:
     op.drop_table('venue')
     op.drop_table('referee')
     op.drop_table('coach')
+    op.drop_table('association')
     op.drop_table('season')
     op.drop_table('person')
     op.drop_table('division')

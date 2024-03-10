@@ -31,7 +31,6 @@ class Coach(Base):
     email: str
     phone_number: str
     active: bool
-    season_id: UUID4
 
     class Config:
         from_attributes = True
@@ -67,7 +66,6 @@ class Season(BaseModel):
     start_dt: date
     end_dt: date
     active: bool
-#    coaches: list[Coach] = []
 #    teams: list[Team] = []
 #    games: list[Game] = []
 
@@ -80,6 +78,15 @@ class SeasonCreate(BaseCreate):
 
     class Config:
         from_attributes = True
+
+
+
+class Association(BaseModel):
+    id: UUID4
+    name: str
+    assignor_id: Optional[UUID4]
+    president_id: Optional[UUID4]
+    registrar_id: Optional[UUID4]
 
 
 class Address(Base):

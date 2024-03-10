@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     auth0_issuer: str
     auth0_algorithms: str
     sqlalchemy_database_url: str
+    log_level: int = 30
 
     class Config:
         env_file = ".env"

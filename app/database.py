@@ -1,7 +1,11 @@
+import logging
+
 import uuid
 from sqlalchemy import create_engine
 from os import environ
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
+
+logger = logging.getLogger(__name__)
 
 SQLALCHEMY_DATABASE_URL = environ.get("SQLALCHEMY_DATABASE_URL")
 engine = create_engine(
