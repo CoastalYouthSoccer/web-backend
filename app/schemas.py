@@ -1,7 +1,9 @@
-from uuid import uuid4
 from enum import Enum
 from datetime import date, datetime
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, ConfigDict, StringConstraints, UUID4
+from typing_extensions import Annotated
+
 #from pydantic_extra_types import phone_numbers
 
 
@@ -16,10 +18,10 @@ class GameStatus(Enum):
 
 
 class Base(BaseModel):
-    id: uuid4
+    id: UUID4
 
 
-class BaseCreate(Base):
+class BaseCreate(BaseModel):
     pass
 
 
@@ -29,7 +31,7 @@ class Coach(Base):
     email: str
     phone_number: str
     active: bool
-    season_id: uuid4
+    season_id: UUID4
 
     class Config:
         from_attributes = True
@@ -37,9 +39,9 @@ class Coach(Base):
 
 class Team(Base):
     name: str
-    division_id: uuid4
-    season_id: uuid4
-    coach_id: uuid4
+    division_id: UUID4
+    season_id: UUID4
+    coach_id: UUID4
     active: bool
 
     class Config:
@@ -48,23 +50,33 @@ class Team(Base):
 
 class Game(Base):
     game_dt: datetime
-    location_id: uuid4
-    season_id: uuid4
-    home_team_id: uuid4
-    away_team_id: uuid4
-    home_score: uuid4
-    away_score: uuid4
+    location_id: UUID4
+    season_id: UUID4
+    home_team_id: UUID4
+    away_team_id: UUID4
+    home_score: UUID4
+    away_score: UUID4
     status: GameStatus
 
 
-class Season(Base):
-    name: str
+class Season(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID4
+    name: Annotated[str, StringConstraints(max_length=100)]
     start_dt: date
     end_dt: date
     active: bool
-    coaches: list[Coach] = []
-    teams: list[Team] = []
-    games: list[Game] = []
+#    coaches: list[Coach] = []
+#    teams: list[Team] = []
+#    games: list[Game] = []
+
+
+class SeasonCreate(BaseCreate):
+    name: str
+    start_dt: date
+    end_dt: date
+    active: Optional[bool] = True
 
     class Config:
         from_attributes = True
@@ -85,7 +97,7 @@ class SubVenue(Base):
     name: str
     plus_code: str
     active: bool
-    venue_id: uuid4
+    venue_id: UUID4
     games: list[Game] = []
 
     class Config:
@@ -94,7 +106,7 @@ class SubVenue(Base):
 
 class Venue(Base):
     name: str
-    address_id: uuid4
+    address_id: UUID4
     active: bool
     sub_venues: list[SubVenue] = []
 
