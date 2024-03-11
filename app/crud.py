@@ -6,17 +6,18 @@ from sqlalchemy import update, select
 from pydantic import UUID4
 from models import (Season as SeasonModel,
     Association as AssociationModel)
-from schemas import SeasonCreate, Association, Season
+from schemas import SeasonCreate, Association
 
 logger = logging.getLogger(__name__)
 
 def get_seasons(db: Session, skip: int=0, limit: int=100):
-    stmt = select(SeasonModel).where(SeasonModel.active == True).limit(limit=limit). \
-        offset(offset=skip)
-    return db.execute(stmt)
+    stmt = select(SeasonModel).where(SeasonModel.active == True). \
+        limit(limit=limit).offset(offset=skip)
+    return db.execute(stmt).all()
 
 def get_season_by_name(db: Session, name: str):
-    return db.execute(select(SeasonModel).where(Season.name == name))
+    return db.execute(select(SeasonModel). \
+                      where(SeasonModel.name == name)).all()
 
 def deactivate_season(db: Session, id: UUID4):
     try:
@@ -50,12 +51,13 @@ def create_season(db: Session, item: SeasonCreate):
     return db_item
 
 def get_associations(db: Session, skip: int=0, limit: int=100):
-    stmt = select(AssociationModel).where(AssociationModel.active == True).limit(limit=limit). \
-        offset(offset=skip)
-    return db.execute(stmt)
+    stmt = select(AssociationModel).where(AssociationModel.active == True). \
+        limit(limit=limit).offset(offset=skip)
+    return db.execute(stmt).all()
 
 def get_association_by_name(db: Session, name: str):
-    return db.execute(select(AssociationModel).where(AssociationModel.name == name))
+    return db.execute(select(AssociationModel). \
+                      where(AssociationModel.name == name)).all()
 
 def deactivate_association(db: Session, id: UUID4):
     temp = db.get(Association, id)
