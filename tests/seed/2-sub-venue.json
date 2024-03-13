@@ -1,0 +1,26 @@
+[
+  {
+    "id": "5ddce726-45f1-4eb5-b824-934f3eff4123",
+    "name": "Field One",
+    "venue_id": "4a879c29-b00b-4b8a-87d8-73e7dd925587",
+    "active": 1
+  },
+  {
+    "id": "ffeac2ed-e537-4e7d-8924-fbeee1496104",
+    "name": "Field Two",
+    "venue_id": "4a879c29-b00b-4b8a-87d8-73e7dd925587",
+    "active": 1    
+  },
+  {
+    "id": "169a1ea6-8be8-4535-8d12-10c577a960f7",
+    "name": "Field Three",
+    "venue_id": "4a879c29-b00b-4b8a-87d8-73e7dd925587",
+    "active": 0
+  },
+  {
+    "id": "649ae8da-f175-470c-afcc-03314acf8e40",
+    "name": "S",
+    "venue_id": "21642ab4-8e46-458a-b8b4-2d6e902cf4ef",
+    "active": 0
+  }  
+]

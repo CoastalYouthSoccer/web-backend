@@ -1,0 +1,95 @@
+[
+  {
+    "model": "app.models.Referee",
+    "records": [
+      {
+        "id": "111e83a9-91e2-4a92-97b3-89e4a9c30e85",
+        "first_name": "Bart",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "bsimpson@simpsons.com",
+        "active": 1,
+        "is_assignor": 1
+      },
+      {
+        "id": "1c0548c0-b844-4279-b52f-1f46c4cdd602",
+        "first_name": "Lisa",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "lsimpson@simpsons.com",
+        "active": 0
+      }
+    ]
+  },
+  {
+    "model": "app.models.Coach",
+    "records": [
+      {
+        "id": "c362dcb4-691a-43a9-9186-8fbb773b4555",
+        "first_name": "Homer",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "hsimpson@simpsons.com",
+        "active": 1
+      },
+      {
+        "id": "3a5723e6-f961-4c44-b774-546f3c3c464a",
+        "first_name": "Marge",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "msimpson@simpsons.com",
+        "active": 0
+      },
+      {
+        "id": "fa32b699-0594-4b58-8170-6ddde5a4c50a",
+        "first_name": "Maggie",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "maggie.simpson@simpsons.com",
+        "active": 0
+      }
+    ]
+  },
+  {
+    "model": "app.database.Person",
+    "records": [
+      {
+        "id": "ddd659ce-4e52-4f90-be9e-8bddb8f2cd4f",
+        "first_name": "Maggie",
+        "last_name": "Simpson",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "maggie.simpson@simpsons.com",
+        "active": 1
+      },
+      {
+        "id": "81ec4e5f-70cd-475b-a744-34e46e159008",
+        "first_name": "Milhouse",
+        "last_name": "Van Houten",
+        "address1": "123 Evergreen Terrace",
+        "city": "Springfield",
+        "state": "MA",
+        "zip_code": "12345",
+        "email": "mvanhouten@simpsons.com",
+        "active": 0
+      }
+    ]
+  }
+]

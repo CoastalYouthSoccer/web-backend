@@ -136,10 +136,8 @@ class Referee(Person):
     id: Mapped[uuid4] = mapped_column(UUID, ForeignKey(PERSON_ID),
                                     primary_key=True)
 
-    is_referee: Mapped[bool] = mapped_column(Boolean, default=True,
-                                         server_default=expression.true())
-    is_assignor: Mapped[bool] = mapped_column(Boolean, default=True,
-                                         server_default=expression.true())
+    is_assignor: Mapped[bool] = mapped_column(Boolean, default=False,
+                                         server_default=expression.false())
 
     __mapper_args__ = {
         "polymorphic_identity": "referee",

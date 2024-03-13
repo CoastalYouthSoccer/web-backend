@@ -1,0 +1,26 @@
+[
+  {
+    "model": "app.models.Venue",
+    "records": [
+      {
+        "id": "4a879c29-b00b-4b8a-87d8-73e7dd925587",
+        "name": "Forge Pond Park",
+        "address_id": "74be71f3-60c7-4b7e-b896-1444ed23e22b",
+        "active": 1
+      },
+      {
+        "id": "21642ab4-8e46-458a-b8b4-2d6e902cf4ef",
+        "name": "Union Street Fields",
+        "address_id": "2056452f-5b26-4f84-97ea-431f94c04fe1",
+        "active": 1
+      },
+      {
+        "id": "9e794a89-8ede-4f33-b6eb-4129ef62536a",
+        "name": "Hanover High School",
+        "address_id": "a62a1ff9-3b0c-4e7f-bddc-94ea33b2218a",
+        "active": 1
+      }
+    ]
+  }
+]
+  

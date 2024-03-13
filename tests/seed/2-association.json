@@ -1,0 +1,19 @@
+[
+    {
+      "model": "app.models.Association",
+      "records": [
+        {
+          "id": "f7d26e82-6ac2-45bd-b6f9-69b611f00c2d",
+          "name": "Hanover",
+          "active": 1,
+          "assignor_id": "111e83a9-91e2-4a92-97b3-89e4a9c30e85",
+          "president_id": "81ec4e5f-70cd-475b-a744-34e46e159008"
+        },
+        {
+          "id": "d57ab6d5-f065-44dd-a0bf-a129c06d8e36",
+          "name": "Hingham",
+          "active": 1
+        }        
+      ]
+    }
+]

@@ -1,0 +1,28 @@
+[
+    {
+      "model": "app.models.Division",
+      "records": [
+        {
+          "id": "1263bc1a-b647-4c9c-a301-3917958eec9f",
+          "name": "D1",
+          "active": 1
+        },
+        {
+          "id": "3384d6ca-8140-43e1-a173-4a9638c82d75",
+          "name": "D2",
+          "active": 1
+        },
+        {
+          "id": "5355ffa6-bcc4-4038-9ce9-d035e0bacca4",
+          "name": "D3",
+          "active": 1
+        },
+        {
+          "id": "28d0cad1-5178-49af-8ee1-34853959d9e2",
+          "name": "Serie A",
+          "active": 1
+        } 
+      ]
+    }
+  ]
+  
