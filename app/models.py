@@ -7,7 +7,7 @@ from sqlalchemy import (Boolean, ForeignKey, String, Date, DateTime,
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 from sqlalchemy.sql import expression
 
-from database import Base
+from app.database import Base
 
 PERSON_ID = "person.id"
 TEAM_ID = "team.id"

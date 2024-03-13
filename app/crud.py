@@ -4,9 +4,9 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import update, select
 from pydantic import UUID4
-from models import (Season as SeasonModel,
+from app.models import (Season as SeasonModel,
     Association as AssociationModel)
-from schemas import SeasonCreate, Association
+from app.schemas import SeasonCreate, Association
 
 logger = logging.getLogger(__name__)
 

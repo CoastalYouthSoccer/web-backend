@@ -7,14 +7,14 @@ from fastapi import Depends, FastAPI, Security, HTTPException, Query
 from fastapi.security import HTTPBearer, SecurityScopes
 from sqlalchemy.orm import Session
 
-from config import get_settings
+from app.config import get_settings
 
-from utils import VerifyToken
+from app.utils import VerifyToken
 
-from crud import (get_seasons, create_season, create_association,
+from app.crud import (get_seasons, create_season, create_association,
                   deactivate_season, get_associations,
                   deactivate_association)
-from schemas import Season, SeasonCreate, Association
+from app.schemas import Season, SeasonCreate, Association
 
 config = get_settings()
 
@@ -22,7 +22,7 @@ logging.basicConfig(stream=stdout,
                     level=config.log_level)
 logger = logging.getLogger(__name__)
 
-from database import get_db
+from app.database import get_db
 
 token_auth_scheme = HTTPBearer()
 auth = VerifyToken() 

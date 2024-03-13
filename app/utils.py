@@ -8,7 +8,7 @@ from fastapi.security import SecurityScopes, HTTPAuthorizationCredentials, HTTPB
 
 logger = logging.getLogger(__name__)
 
-from config import get_settings
+from app.config import get_settings
 
 
 class UnauthorizedException(HTTPException):

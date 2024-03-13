@@ -1,0 +1,6 @@
+AUTH0_DOMAIN = hanover-referee.us.auth0.com
+AUTH0_API_AUDIENCE = https://hanoversoccerref.space
+AUTH0_ISSUER = https://hanover-referee.us.auth0.com/
+AUTH0_ALGORITHMS = RS256
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:10ff1ce0!@localhost/cysltest"
+ENV_FILE = "test_env"
