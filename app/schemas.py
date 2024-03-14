@@ -66,8 +66,8 @@ class Season(BaseModel):
     start_dt: date
     end_dt: date
     active: bool
-#    teams: list[Team] = []
-#    games: list[Game] = []
+    teams: Optional[list[Team]] = []
+    games: Optional[list[Game]] = []
 
 
 class SeasonCreate(BaseCreate):
@@ -79,6 +79,9 @@ class SeasonCreate(BaseCreate):
     class Config:
         from_attributes = True
 
+
+class SeasonList(BaseModel):
+    seasons: list[Season]
 
 
 class Association(BaseModel):
