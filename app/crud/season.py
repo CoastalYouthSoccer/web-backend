@@ -5,15 +5,13 @@ from sqlalchemy.orm import Session
 from sqlalchemy import update, select
 from pydantic import UUID4
 from app.models import (Season as SeasonModel)
-from app.schemas import SeasonCreate, SeasonList
-
+from app.schemas import SeasonCreate
 logger = logging.getLogger(__name__)
 
 def get_seasons(db: Session, skip: int=0, limit: int=100):
     stmt = select(SeasonModel).where(SeasonModel.active == True). \
         limit(limit=limit).offset(offset=skip)
-    results = db.execute(stmt).all()
-    return SeasonList(seasons=results)
+    return db.scalars(stmt).all()
 
 def get_season_by_name(db: Session, name: str):
     return db.execute(select(SeasonModel). \

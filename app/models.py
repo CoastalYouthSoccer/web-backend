@@ -62,6 +62,9 @@ class Association(Base):
     assignor_id: Mapped[Optional[uuid4]] = mapped_column(UUID, ForeignKey(PERSON_ID))
     president_id: Mapped[Optional[uuid4]] = mapped_column(UUID, ForeignKey(PERSON_ID))
     registrar_id: Mapped[Optional[uuid4]] = mapped_column(UUID, ForeignKey(PERSON_ID))
+    assignor: Mapped["Referee"] = relationship(back_populates="assignor")
+    president: Mapped["Person"] = relationship(back_populates="president")
+    registrar: Mapped["Person"] = relationship(back_populates="registrar")
 
 
 class Venue(Base):
@@ -109,7 +112,10 @@ class Person(Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True,
                                          server_default=expression.true())
     table_type: Mapped[str] = mapped_column(String(20))
-
+    registrar: Optional[Mapped["Association"]] = relationship(
+                                                     back_populates="registrar")
+    president: Optional[Mapped["Association"]] = relationship(
+                                                     back_populates="president")
 
     __mapper_args__ = {
         "polymorphic_identity": "person",
@@ -138,6 +144,7 @@ class Referee(Person):
 
     is_assignor: Mapped[bool] = mapped_column(Boolean, default=False,
                                          server_default=expression.false())
+    assignor: Optional["Association"] = relationship(back_populates="assignor")
 
     __mapper_args__ = {
         "polymorphic_identity": "referee",
