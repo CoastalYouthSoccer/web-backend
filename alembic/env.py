@@ -4,6 +4,8 @@ from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 from app.database import SQLALCHEMY_DATABASE_URL, Base
+from app.models import (Venue, SubVenue, Division, Season, Gender, Game,
+            GameStatus, Address, Coach, Team)  # noqa
 
 SQLALCHEMY_URL = "sqlalchemy.url"
 
