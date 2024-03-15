@@ -1,5 +1,4 @@
-from functools import lru_cache
-
+from os import environ
 from pydantic_settings import BaseSettings
 
 
@@ -12,8 +11,8 @@ class Settings(BaseSettings):
     log_level: int = 30
 
     class Config:
-        env_file = ".env"
+        print(environ.get("ENV_FILE", ".env"))
+        env_file = environ.get("ENV_FILE", ".env")
 
-@lru_cache()
 def get_settings():
     return Settings()

@@ -57,18 +57,21 @@ class Game(Base):
     away_score: UUID4
     status: GameStatus
 
+    class Config:
+        from_attributes = True
+
 
 class Season(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
     id: UUID4
     name: Annotated[str, StringConstraints(max_length=100)]
     start_dt: date
     end_dt: date
     active: bool
-#    teams: list[Team] = []
-#    games: list[Game] = []
+    teams: Optional[list[Team]] = []
+    games: Optional[list[Game]] = []
 
+    class Config:
+        from_attributes = True
 
 class SeasonCreate(BaseCreate):
     name: str
@@ -80,13 +83,15 @@ class SeasonCreate(BaseCreate):
         from_attributes = True
 
 
-
 class Association(BaseModel):
     id: UUID4
     name: str
     assignor_id: Optional[UUID4]
     president_id: Optional[UUID4]
     registrar_id: Optional[UUID4]
+
+    class Config:
+        from_attributes = True
 
 
 class Address(Base):
@@ -125,3 +130,6 @@ class Division(Base):
     name: str
     active: bool
     teams: list[Team] = []
+
+    class Config:
+        from_attributes = True

@@ -1,0 +1,31 @@
+[
+  {
+    "model": "app.models.Address",
+    "records": [
+      {
+        "id": "74be71f3-60c7-4b7e-b896-1444ed23e22b",
+        "address1": "215 King St.",
+        "address2": null,
+        "city": "Hanover",
+        "state": "MA",
+        "zip_code": "02339-0000"
+      },
+      {
+        "id": "2056452f-5b26-4f84-97ea-431f94c04fe1",
+        "address1": "Union Street",
+        "address2": null,
+        "city": "Hingham",
+        "state": "MA",
+        "zip_code": "02043-0000"
+      },
+      {
+        "id": "a62a1ff9-3b0c-4e7f-bddc-94ea33b2218a",
+        "address1": "287 Cedar St.",
+        "address2": null,
+        "city": "Hanover",
+        "state": "MA",
+        "zip_code": "02339-0000"
+      }
+    ]
+  }
+]

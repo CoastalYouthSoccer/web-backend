@@ -8,7 +8,7 @@ from fastapi.security import SecurityScopes, HTTPAuthorizationCredentials, HTTPB
 
 logger = logging.getLogger(__name__)
 
-from config import get_settings
+from app.config import get_settings
 
 
 class UnauthorizedException(HTTPException):
@@ -62,7 +62,20 @@ class VerifyToken:
         except Exception as error:
             raise UnauthorizedException(str(error))
     
+        if len(security_scopes.scopes) > 0:
+            self._check_claims(payload, security_scopes.scopes)
+
         return payload
+
+    def _check_claims(self, payload, scopes):
+        if 'permissions' not in payload:
+            raise UnauthorizedException(detail='No Permissions found in token')
+
+        payload_claim = payload['permissions']
+
+        for scope in scopes:
+            if scope not in payload_claim:
+                raise UnauthorizedException(detail=f'Missing "{scope}" scope')
 
 def __init__(self):
         self.config = get_settings()

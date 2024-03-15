@@ -3,8 +3,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
-from database import SQLALCHEMY_DATABASE_URL, Base
-from models import (Season, Gender, GameStatus)  # noqa
+from app.database import SQLALCHEMY_DATABASE_URL, Base
 
 SQLALCHEMY_URL = "sqlalchemy.url"
 
